@@ -1,9 +1,13 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
+
 function Header() {
     return (
         <header className="header-container">
-            <div className="header-logo">
+            <Link to='/' className="header-logo">
                 <img src="/images/logo.png" alt="Логотип" width={160} height={160}/>
-            </div>
+            </Link>
             <ul className="header-right">
                 <li>
                     <search>
@@ -17,19 +21,19 @@ function Header() {
                     </search>
                 </li>
                 <li>
-                    <button type="button" className="header-button" title="Избранное">
+                    <Link to='/favorites' className="header-button" title="Избранное">
                         <img src="/images/izbranoe.png" alt="" aria-hidden="true" width={40} height={40}/>
-                    </button>
+                    </Link>
                 </li>
                 <li>
-                    <button type="button" className="header-button" title="Вход/Зарегистрироваться">
+                    <Link to='/login' className="header-button" title="Вход/Зарегистрироваться">
                         <img src="/images/inter.png" alt="" aria-hidden="true" width={40} height={40}/>
-                    </button>
+                    </Link>
                 </li>
                 <li>
-                    <button type="button" className="header-button" title="Корзина">
+                    <Link to='/cart' className="header-button" title="Корзина">
                         <img src="/images/card.png" alt="" aria-hidden="true" width={50} height={50}/>
-                    </button>
+                    </Link>
                 </li>
             </ul>
         </header>
