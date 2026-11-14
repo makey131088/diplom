@@ -2,8 +2,12 @@ import React from "react";
 import Banner from "../components/Banner/Banner";
 import CategoryCard from "../components/CategoryCard/CategoryCard";
 import ProductCard from "../components/ProductCard/ProductCard";
+import { products } from "../data/products";
+
 
 function HomePage() {
+    const popularIds = [1, 3, 11, 19];
+    const popularProducts = products.filter ((item) => popularIds.includes(item.id));
     return (
         <>
             <Banner />
@@ -14,12 +18,14 @@ function HomePage() {
                         title="Сноуборды"
                         text={<>Лучшие модели<br />для каждого стиля катания</>}
                         className="card-snowboards"
+                        to="/snowboards"
                     />
             
                     <CategoryCard
                         title="Крепления"
                         text={<>Надежность и контроль<br />в каждом спуске</>}
                         className="card-bindings"
+                        to="/bindings"
                     />
                 </div>
             </section>
@@ -27,24 +33,20 @@ function HomePage() {
             <section className="popular-products">
                 <h2>Популярные товары</h2>
                 <div className="products-grid">
-                    <ProductCard 
-                    id={1}
-                    brand="Capita"
-                    title="Сноуборд Mountain Twin 2024" 
-                    price={54900} 
-                    image="https://unsplash.com" 
-                    />
-                    <ProductCard 
-                    id={2}
-                    brand="Union"
-                    title="Крепления Force Black" 
-                    price={28500} 
-                    image="https://unsplash.com" 
-                    />
+                    {popularProducts.map((product) => (
+                        <ProductCard
+                            key={product.id}
+                            id={product.id}
+                            brand={product.brand}
+                            title={product.title} 
+                            price={product.price} 
+                            image={product.image} 
+                        />
+                    ))}
                 </div>
             </section>
         </>
-    )
+    );
 }
 
 export default HomePage;

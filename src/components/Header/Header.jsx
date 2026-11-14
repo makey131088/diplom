@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 
 
 function Header() {
+    const { totalCount } = useCart();
     return (
         <header className="header-container">
             <Link to='/' className="header-logo">
@@ -31,8 +33,11 @@ function Header() {
                     </Link>
                 </li>
                 <li>
-                    <Link to='/cart' className="header-button" title="Корзина">
+                    <Link to='/cart' className="header-button header-cart-link" title="Корзина">
                         <img src="/images/card.png" alt="" aria-hidden="true" width={50} height={50}/>
+                        { totalCount > 0 && (
+                            <span className="cart-badge">{totalCount}</span>
+                        )}
                     </Link>
                 </li>
             </ul>

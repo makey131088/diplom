@@ -1,15 +1,16 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-
-
 import Header from './components/Header/Header';
-
 import CartPage from './pages/CartPage';
 import CatalogPage from './pages/CatalogPage';
 import FavoritesPage from './pages/FavoritesPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import BindingsPage from './pages/BindingsPage';
+import SnowboardsPage from './pages/SnowboardsPage';
+
+
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
           <Route path='/favorites' element={<FavoritesPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
+          <Route path='/bindings' element={<BindingsPage />} />
+          <Route path='/snowboards' element={<SnowboardsPage />} />
         </Routes>
       </main>
     </div>
