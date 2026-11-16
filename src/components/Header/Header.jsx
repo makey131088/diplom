@@ -1,10 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-
 
 function Header() {
     const { totalCount } = useCart();
+    const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate();
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const trimmed = searchQuery.trim();
+
+        if (trimmed) {
+            navigate(`/catalog?search=${encodeURIComponent(trimmed)}`);
+        } else {
+            navigate("/catalog");
+        }
+    };
+
     return (
         <header className="header-container">
             <Link to='/' className="header-logo">
@@ -13,9 +26,18 @@ function Header() {
             <ul className="header-right">
                 <li>
                     <search>
-                        <form action="/search" role="search" method="get" className="search-form">
+                        <form role="search" className="search-form" onSubmit={handleSearch}>
                             <label htmlFor="board-search" className="visually-hidden"></label>
-                            <input className="search-form-input" type="search" id="board-search" name="q" placeholder="Поиск..." autoComplete="off" required/>
+                            <input
+                                className="search-form-input"
+                                type="search"
+                                id="board-search"
+                                name="q"
+                                placeholder="Поиск..."
+                                autoComplete="off"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
                             <button type="submit" aria-label="Найти" className="header-button">
                                 <img src="/images/search.png" alt="Поиск" width={40} height={40}/>
                             </button>

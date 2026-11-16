@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import BindingsPage from './pages/BindingsPage';
 import SnowboardsPage from './pages/SnowboardsPage';
+import ProductPage from './pages/ProductPage/ProductPage';
 
 
 
@@ -26,6 +27,7 @@ function App() {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/bindings' element={<BindingsPage />} />
           <Route path='/snowboards' element={<SnowboardsPage />} />
+          <Route path='/product/:id' element={<ProductPage />} />
         </Routes>
       </main>
     </div>

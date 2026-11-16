@@ -15,7 +15,6 @@ export function FavoritesProvider({ children }) {
     }, 
     [favoriteItems]);
 
-  // Добавить или убрать товар из избранного (переключатель по клику на сердечко)
     const toggleFavorite = (product) => {
         setFavoriteItems((prev) => {
             const exists = prev.some((item) => item.id === product.id);
