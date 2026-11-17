@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
-
 function CartPage() {
     const { cartItems, updateQuantity, removeFromCart, totalPrice } = useCart();
 
@@ -20,44 +19,54 @@ function CartPage() {
             ) : (
                 <div className="cart-container cart-container-filled">
                     <div className="cart-items-list">
-                        {cartItems.map((item) => (
-                            <div key={item.id} className="cart-item">
-                                <img src={item.image} alt={item.title} className="cart-item-img" />
-                                
-                                <div className="cart-item-info">
-                                    {item.brand && <p className="cart-item-brand">{item.brand}</p>}
-                                    <h3 className="cart-item-title">{item.title}</h3>
-                                    <p className="cart-item-price">{item.price.toLocaleString("ru-RU")} ₽</p>
-                                </div>
+                        {cartItems.map((item) => {
+                            const itemKey = item.cartItemId || item.id;
+                            const isSnowboardSize = item.size && /^\d/.test(String(item.size));
 
-                                <div className="cart-quantity-controls">
+                            return (
+                                <div key={itemKey} className="cart-item">
+                                    <img src={item.image} alt={item.title} className="cart-item-img" />
+                                    
+                                    <div className="cart-item-info">
+                                        {item.brand && <p className="cart-item-brand">{item.brand}</p>}
+                                        <h3 className="cart-item-title">{item.title}</h3>
+                                        {item.size && (
+                                            <p className="cart-item-size" style={{ fontSize: "14px", color: "#718096", margin: "4px 0" }}>
+                                                {isSnowboardSize ? "Ростовка" : "Размер"}: <strong>{item.size}</strong>
+                                            </p>
+                                        )}
+                                        <p className="cart-item-price">{item.price.toLocaleString("ru-RU")} ₽</p>
+                                    </div>
+
+                                    <div className="cart-quantity-controls">
+                                        <button 
+                                            className="cart-qty-btn" 
+                                            onClick={() => updateQuantity(itemKey, -1)}
+                                        >
+                                            -
+                                        </button>
+                                        <span className="cart-qty-value">{item.quantity}</span>
+                                        <button 
+                                            className="cart-qty-btn" 
+                                            onClick={() => updateQuantity(itemKey, 1)}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+
+                                    <div className="cart-item-total">
+                                        {(item.price * item.quantity).toLocaleString("ru-RU")} ₽
+                                    </div>
+
                                     <button 
-                                        className="cart-qty-btn" 
-                                        onClick={() => updateQuantity(item.id, -1)}
+                                        className="cart-remove-btn" 
+                                        onClick={() => removeFromCart(itemKey)}
                                     >
-                                        -
-                                    </button>
-                                    <span className="cart-qty-value">{item.quantity}</span>
-                                    <button 
-                                        className="cart-qty-btn" 
-                                        onClick={() => updateQuantity(item.id, 1)}
-                                    >
-                                        +
+                                        Удалить
                                     </button>
                                 </div>
-
-                                <div className="cart-item-total">
-                                    {(item.price * item.quantity).toLocaleString("ru-RU")} ₽
-                                </div>
-
-                                <button 
-                                    className="cart-remove-btn" 
-                                    onClick={() => removeFromCart(item.id)}
-                                >
-                                    Удалить
-                                </button>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
 
                     <div className="cart-summary">

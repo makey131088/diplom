@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { products } from "../../data/products";
 import { useCart } from "../../context/CartContext";
@@ -13,6 +13,16 @@ function ProductPage() {
     const { addToCart } = useCart();
     const { toggleFavorite, isFavorite } = useFavorites();
     const [isAdded, setIsAdded] = useState(false);
+    const [selectedSize, setSelectedSize] = useState("");
+
+    useEffect(() => {
+        if (product?.sizes && product.sizes.length > 0) {
+            setSelectedSize(product.sizes[0]);
+        } else {
+            setSelectedSize("");
+        }
+    }, [product]);
+
 
     if (!product) {
         return (
@@ -31,7 +41,8 @@ function ProductPage() {
             title: product.title,
             brand: product.brand,
             price: product.price,
-            image: product.image
+            image: product.image,
+            size: selectedSize
         });
         setIsAdded(true);
         setTimeout(() => setIsAdded(false), 1000);
@@ -74,6 +85,25 @@ function ProductPage() {
                         <p><strong>Бренд:</strong> {product.brand}</p>
                         <p><strong>Артикул:</strong> #{product.id}</p>
                     </div>
+                    {product.sizes && product.sizes.length > 0 && (
+                        <div className="product-sizes">
+                            <p className="product-sizes-label">
+                                {product.category === "snowboards" ? "Ростовка (см)" : "Размер"}: <span>{selectedSize}</span>
+                            </p>
+                            <div className="product-sizes-grid">
+                                {product.sizes.map((size) => (
+                                    <button
+                                        key={size}
+                                        type="button"
+                                        className={`product-size-btn ${selectedSize === size ? "active" : ""}`}
+                                        onClick={() => setSelectedSize(size)}
+                                    >
+                                        {size}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     <div className="product-actions">
                         <button
@@ -94,6 +124,31 @@ function ProductPage() {
                     </div>
                 </div>
             </div>
+            
+            {(product.description || product.specs) && (
+                <div className="product-extra">
+                    {product.description && (
+                        <div className="product-section">
+                            <h2 className="product-section-title">О товаре</h2>
+                            <p className="product-description-text">{product.description}</p>
+                        </div>
+                    )}
+
+                    {product.specs && product.specs.length > 0 && (
+                        <div className="product-section">
+                            <h2 className="product-section-title">Характеристики</h2>
+                            <div className="product-specs-list">
+                                {product.specs.map((spec, index) => (
+                                    <div key={index} className="product-spec-row">
+                                        <span className="product-spec-label">{spec.label}</span>
+                                        <span className="product-spec-value">{spec.value}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}        
         </div>
     );
 }
